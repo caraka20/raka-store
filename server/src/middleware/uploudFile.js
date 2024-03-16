@@ -9,6 +9,7 @@ const upload = async (req, res, next) => {
   result(req, res, function (err) {
     try {
       if (err) throw err;
+      // console.log(req.files);
 
       // Memeriksa dan memproses file
       if (req.files.files) {
@@ -24,25 +25,24 @@ const upload = async (req, res, next) => {
       // Memeriksa dan memproses gambar
       if (req.files.images) {
         req.files.images.forEach((value) => {
-          req.files.images.forEach((value) => {
-            if (value.size > 1000000)
-              throw {
-                message: `${value.originalname} is Too Large!`,
-                files: req.files,
-              };
-          });
+          if (value.size > 1000000) {
+            throw {
+              message: `${value.originalname} is Too Large!`,
+              files: req.files,
+            };
+          }
         });
       }
 
       next();
-    } catch (error) {;
+    } catch (error) {
       if (error.files.files) {
         deleteFiles(error.files.files[0].path);
       }
       if (error.files.images) {
-        deleteFiles(error.files.images[0].path)
+        deleteFiles(error.files.images[0].path);
       }
-      
+
       next(error);
     }
   });

@@ -6,8 +6,14 @@ module.exports = {
     try {
       const data = JSON.parse(req.body.data);
       const path = req.files.files[0].path;
-      const image_product = req.files.images[0].path;
-      if (parseInt(data.harga.replace(/\./g, "")) < 5000) {
+      // console.log(req.files);
+      let image_product = "";
+      if (req.files.images) {
+        image_product = req.files.images[0].path;
+      }
+      console.log(data);
+
+      if (parseInt(data.harga) < 5000) {
         throw { isError: true, message: "harga harus diatas 5rb" };
       }
       const result = await productServices.createProduct(

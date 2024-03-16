@@ -89,7 +89,7 @@ module.exports = {
       await db.product.create({
         nama_product,
         description,
-        harga: parseInt(harga.replace(/\./g, "")),
+        harga: harga,
         kategori_id,
         status: "active",
         file: path,
@@ -97,6 +97,7 @@ module.exports = {
       });
       return { message: "Add Product success" };
     } catch (error) {
+      console.log(error);
       return error;
     }
   },
